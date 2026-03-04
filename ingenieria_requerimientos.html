@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingeniería de Requerimientos · Unidad 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1A2E5A; --teal:#0D7C8F; --teal2:#02A99A; --gold:#E5A823;
+    --green:#1B7A4E; --amber:#D46B08; --purple:#6C3483; --blue:#1A5276;
+    --red:#C0392B; --white:#ffffff; --offwhite:#F4F8FA; --ice:#D8EEF3;
+    --text:#1C2B3A; --muted:#546E7A; --light:#B0C4CE; --border:#D0DDE3;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--offwhite);color:var(--text);line-height:1.65;}
+
+  /* PROGRESS */
+  .progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--gold);z-index:999;transition:width .1s;width:0%;}
+
+  /* TOPNAV */
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(26,46,90,0.97);backdrop-filter:blur(8px);padding:0 24px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;}
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:12px;font-weight:600;padding:14px 13px;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+  .topnav a:hover,.topnav a.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .topnav .brand{color:white;font-weight:800;padding-right:20px;border-right:1px solid rgba(255,255,255,0.15);margin-right:6px;font-size:12px;white-space:nowrap;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,#0f1d3a 60%,#0a2744 100%);color:white;padding:72px 40px 64px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(13,124,143,0.35) 0%,transparent 60%);}
+  .hero-accent{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--gold);}
+  .hero-content{position:relative;max-width:960px;margin:0 auto;}
+  .hero-tag{display:inline-block;background:rgba(229,168,35,0.18);border:1px solid rgba(229,168,35,0.5);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px;}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(34px,6vw,58px);font-weight:700;line-height:1.1;margin-bottom:16px;}
+  .hero h1 span{color:var(--gold);}
+  .hero-sub{font-size:15px;color:rgba(255,255,255,0.7);max-width:600px;margin-bottom:28px;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:rgba(255,255,255,0.55);}
+  .hero-meta span{display:flex;align-items:center;gap:6px;}
+  .hero-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+  .hero-nav a{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;}
+  .hero-nav a.primary{background:var(--teal);color:white;}
+  .hero-nav a.primary:hover{background:var(--teal2);}
+  .hero-nav a.ghost{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.2);}
+  .hero-nav a.ghost:hover{background:rgba(255,255,255,0.15);}
+  .pascual-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 14px;margin-top:20px;font-size:12px;color:rgba(255,255,255,0.7);}
+  .pascual-badge strong{color:white;}
+
+  /* HERO HEADER BAR */
+  .hero-header-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:32px;
+    padding-bottom:24px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    flex-wrap:wrap;gap:16px;
+  }
+  .hero-logos{display:flex;align-items:center;gap:16px;}
+  .hero-logo-wrap{
+    display:flex;align-items:center;justify-content:center;
+    padding:4px 8px;
+    transition:transform .2s;
+  }
+  .hero-logo-wrap:hover{transform:scale(1.06);}
+  .hero-logo-wrap img{
+    height:60px;width:auto;max-width:160px;
+    object-fit:contain;display:block;
+    filter: brightness(0) invert(1);
+  }
+  .hero-logo-placeholder{
+    height:56px;width:56px;border-radius:8px;
+    background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;color:rgba(255,255,255,0.7);
+  }
+  .hero-logo-sep{width:1px;height:40px;background:rgba(255,255,255,0.18);}
+  .hero-inst-info{text-align:right;}
+  .hero-inst-uni{font-size:13px;font-weight:700;color:white;}
+  .hero-inst-prog{font-size:11.5px;color:rgba(255,255,255,0.55);margin-top:2px;}
+  @media(max-width:560px){
+    .hero-header-bar{justify-content:center;}
+    .hero-inst-info{text-align:center;}
+  }
+
+  /* LAYOUT */
+  .wrapper{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  /* SECTION HEADER */
+  .sec-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-top:56px;}
+  .sec-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;flex-shrink:0;}
+  .sec-header h2{font-size:22px;font-weight:800;color:var(--navy);}
+  .sec-header p{font-size:13px;color:var(--muted);margin-top:2px;}
+
+  /* SOURCE TAG */
+  .source-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+  .src-pascual{background:#FFF8E1;color:#7B5800;border:1px solid #F0C040;}
+  .src-ieee{background:#E8F4FD;color:#1A5276;border:1px solid #85C1E9;}
+
+  /* CARDS */
+  .card{background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(26,46,90,0.07);border:1px solid var(--border);}
+
+  /* OBJECTIVES */
+  .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+  .obj-card{border-radius:12px;padding:24px;color:white;position:relative;overflow:hidden;}
+  .obj-card::after{content:attr(data-num);position:absolute;right:-10px;bottom:-18px;font-size:76px;font-weight:900;opacity:0.08;line-height:1;}
+  .obj-num{font-size:10px;font-weight:800;letter-spacing:2px;opacity:0.7;margin-bottom:8px;}
+  .obj-title{font-size:18px;font-weight:700;margin-bottom:6px;}
+  .obj-desc{font-size:12.5px;opacity:0.85;line-height:1.5;}
+
+  /* DEF BOX */
+  .def-box{border-left:5px solid var(--teal);background:var(--ice);border-radius:0 10px 10px 0;padding:18px 22px;margin:20px 0;font-style:italic;color:var(--teal);font-size:14.5px;line-height:1.6;}
+  .def-box.amber{border-color:var(--amber);background:#FFF8E1;color:var(--amber);}
+  .def-box.green{border-color:var(--green);background:#F0FAF4;color:var(--green);}
+  .def-box.navy{border-color:var(--navy);background:#EEF2FA;color:var(--navy);}
+
+  /* BULLET LIST */
+  .bullet-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .bullet-list li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;}
+  .bullet-list li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:6px;}
+  .bullet-list li.green::before{background:var(--green);}
+  .bullet-list li.amber::before{background:var(--amber);}
+  .bullet-list li.navy::before{background:var(--navy);}
+
+  /* PROCESS FLOW */
+  .process-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin:24px 0;border-radius:12px;overflow:hidden;}
+  .pf-step{padding:20px 18px;color:white;}
+  .pf-step-num{font-size:28px;font-weight:900;opacity:0.22;line-height:1;margin-bottom:8px;}
+  .pf-step-title{font-size:13px;font-weight:700;margin-bottom:5px;}
+  .pf-step-desc{font-size:11.5px;opacity:0.85;line-height:1.5;}
+
+  /* STATS */
+  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:20px 0;}
+  .stat-card{border-radius:12px;padding:22px;text-align:center;color:white;}
+  .stat-val{font-size:38px;font-weight:900;line-height:1;margin-bottom:8px;}
+  .stat-label{font-size:12px;opacity:0.85;line-height:1.4;}
+
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+  .col-card{border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(26,46,90,0.07);}
+  .col-head{padding:13px 18px;color:white;font-size:13px;font-weight:700;}
+  .col-body{background:white;padding:16px 18px;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;}
+  .col-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5;}
+  .col-item:last-child{border-bottom:none;}
+  .col-item .code{font-weight:700;font-size:10px;color:var(--muted);display:block;margin-bottom:2px;}
+
+  /* COMPARISON TABLE */
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px;border-radius:12px;overflow:hidden;}
+  .cmp-table th{background:var(--navy);color:white;padding:11px 14px;text-align:left;font-weight:700;}
+  .cmp-table td{padding:10px 14px;border-bottom:1px solid var(--border);}
+  .cmp-table tr:nth-child(even) td{background:var(--offwhite);}
+  .cmp-table .rf{color:var(--green);font-weight:600;}
+  .cmp-table .rnf{color:var(--amber);font-weight:600;}
+  .cmp-table .asp{color:var(--navy);font-weight:600;}
+
+  /* QUALITY GRID */
+  .quality-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin:20px 0;}
+  .q-card{display:flex;gap:14px;align-items:flex-start;background:white;border-radius:10px;padding:16px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(26,46,90,0.05);}
+  .q-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:white;font-weight:800;}
+  .q-title{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+  .q-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+  /* TECHNIQUES GRID */
+  .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:20px 0;}
+  .tech-card{background:white;border-radius:10px;border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(26,46,90,0.05);}
+  .tech-head{padding:10px 14px;font-size:12px;font-weight:700;color:white;}
+  .tech-body{padding:12px 14px;font-size:12.5px;color:var(--text);line-height:1.5;}
+
+  /* TOOLS ROW */
+  .tools-row{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;}
+  .tool-pill{display:flex;align-items:center;gap:8px;background:white;border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;color:var(--navy);box-shadow:0 2px 6px rgba(26,46,90,0.06);}
+  .tool-dot{width:10px;height:10px;border-radius:50%;}
+
+  /* IMPACT MAP */
+  .impact-map{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:20px 0;border-radius:12px;overflow:hidden;}
+  .im-col{padding:16px;}
+  .im-col h4{font-size:12px;font-weight:800;margin-bottom:8px;letter-spacing:0.5px;}
+  .im-col p{font-size:12px;line-height:1.5;}
+  @media(max-width:600px){.impact-map{grid-template-columns:1fr 1fr;}}
+
+  /* USER STORY */
+  .us-template{background:white;border:2px dashed var(--teal);border-radius:12px;padding:20px 24px;margin:16px 0;}
+  .us-template .us-label{font-size:11px;font-weight:800;color:var(--teal);letter-spacing:1px;margin-bottom:8px;}
+  .us-template .us-text{font-size:14px;color:var(--text);line-height:1.7;}
+  .us-template .us-text span{background:var(--ice);border-radius:4px;padding:1px 6px;font-weight:600;color:var(--teal);}
+  .us-example{background:var(--offwhite);border-radius:10px;padding:14px 16px;margin:10px 0;font-size:13px;}
+  .us-example .label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:4px;}
+
+  /* IEEE BOX */
+  .ieee-box{background:linear-gradient(135deg,#EEF2FA,#E8F4FD);border:1px solid #85C1E9;border-radius:12px;padding:22px 24px;margin:20px 0;}
+  .ieee-box h4{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:12px;}
+  .ieee-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+  .ieee-sec{background:white;border-radius:8px;padding:10px 12px;font-size:12px;border:1px solid #D4E6F1;}
+  .ieee-sec strong{display:block;color:var(--blue);font-size:11px;margin-bottom:3px;}
+
+  /* TIPS BOX */
+  .tips-box{background:#F0FAF4;border:1px solid #A9DFBF;border-radius:10px;padding:18px 20px;margin:16px 0;}
+  .tips-box h4{font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px;}
+  .tip-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;padding:5px 0;}
+  .tip-item::before{content:"✓";color:var(--green);font-weight:800;flex-shrink:0;}
+
+  /* WARNING BOX */
+  .warn-box{background:#FFF8E1;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;font-size:13px;color:#7B5800;margin:16px 0;}
+
+  /* EXERCISE SECTION */
+  .exercise-hero{background:linear-gradient(120deg,var(--navy),#0e2244);border-radius:16px;padding:32px;color:white;margin:40px 0 24px;position:relative;overflow:hidden;}
+  .exercise-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(13,124,143,0.25);}
+  .exercise-hero h2{font-size:24px;font-weight:800;margin-bottom:7px;}
+  .exercise-hero p{font-size:13.5px;opacity:0.75;max-width:540px;}
+  .exercise-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
+  .exercise-tags span{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;}
+
+  /* CASE STUDY */
+  .case-box{background:white;border-radius:12px;border:1px solid var(--border);overflow:hidden;margin:0 0 24px;box-shadow:0 2px 12px rgba(26,46,90,0.07);}
+  .case-head{background:var(--teal);color:white;padding:16px 22px;}
+  .case-head h3{font-size:16px;font-weight:700;}
+  .case-head p{font-size:11.5px;opacity:0.8;margin-top:3px;}
+  .case-body{padding:22px;}
+  .case-body p{font-size:13.5px;margin-bottom:14px;line-height:1.65;}
+  .case-needs{background:var(--offwhite);border-radius:10px;padding:16px 18px;margin-top:14px;}
+  .case-needs h4{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:0.5px;}
+  .need-item{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .need-item:last-child{border-bottom:none;}
+  .need-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:white;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .actors-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:18px;border-radius:10px;overflow:hidden;}
+  .actors-table th{background:var(--navy);color:white;padding:9px 13px;}
+  .actors-table td{padding:9px 13px;background:white;border-bottom:1px solid var(--border);}
+  .actors-table tr:nth-child(even) td{background:var(--offwhite);}
+
+  /* ACTIVITIES */
+  .activity{border-radius:12px;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 10px rgba(26,46,90,0.07);}
+  .act-head{padding:14px 20px;color:white;display:flex;align-items:center;gap:12px;}
+  .act-num{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;}
+  .act-title{font-size:15px;font-weight:700;}
+  .act-time{margin-left:auto;font-size:11px;opacity:0.8;background:rgba(255,255,255,0.15);padding:3px 10px;border-radius:20px;white-space:nowrap;}
+  .act-body{background:white;padding:20px;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;}
+  .act-body p{font-size:13.5px;margin-bottom:12px;}
+  .act-tip{background:#FFF8E1;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:11px 14px;font-size:13px;color:#7B5800;margin-top:10px;}
+
+  /* TABLES */
+  .bad-table,.delivery-table,.eval-table{width:100%;border-collapse:collapse;font-size:13px;border-radius:10px;overflow:hidden;}
+  .bad-table th,.delivery-table th,.eval-table th{background:var(--navy);color:white;padding:10px 13px;}
+  .bad-table td,.delivery-table td,.eval-table td{padding:10px 13px;border-bottom:1px solid var(--border);}
+  .bad-table tr:nth-child(even) td,.delivery-table tr:nth-child(even) td,.eval-table tr:nth-child(even) td{background:var(--offwhite);}
+  .eval-table tfoot td{background:var(--navy);color:white;font-weight:700;}
+  .bad-req{color:#8B0000;font-style:italic;}
+  .prob{color:var(--amber);font-size:11.5px;}
+  .empty-cell{height:34px;}
+  .pct{font-size:17px;font-weight:800;color:var(--teal);}
+
+  /* DISCUSSION */
+  .discussion{display:flex;flex-direction:column;gap:12px;}
+  .disc-q{display:flex;gap:12px;align-items:flex-start;background:white;border-radius:10px;padding:14px 16px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(26,46,90,0.05);}
+  .disc-q-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:white;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .disc-q-text{font-size:13.5px;color:var(--text);line-height:1.55;padding-top:2px;}
+
+  /* TEACHER NOTES */
+  /* TIPS ESTUDIANTE */
+  .tips-section{display:flex;flex-direction:column;gap:22px;}
+
+  .tip-card{background:white;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:0 3px 14px rgba(26,46,90,0.08);}
+  .tip-card-head{display:flex;align-items:center;gap:14px;padding:16px 20px;}
+  .tip-card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:white;}
+  .tip-card-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:0.65;margin-bottom:2px;}
+  .tip-card-title{font-size:15px;font-weight:700;color:var(--navy);}
+  .tip-card-body{padding:0 20px 18px;font-size:13.5px;color:var(--text);line-height:1.65;}
+
+  /* AUTHOR QUOTE */
+  .author-quote{
+    position:relative;
+    border-radius:12px;
+    padding:22px 24px 16px 32px;
+    margin:14px 0 0;
+    font-style:italic;
+  }
+  .author-quote::before{
+    content:'\201C';
+    position:absolute;left:8px;top:4px;
+    font-size:64px;line-height:1;font-family:'Playfair Display',serif;
+    opacity:0.25;font-style:normal;
+  }
+  .author-quote p{font-size:13.5px;line-height:1.7;margin-bottom:10px;}
+  .author-quote cite{font-size:11.5px;font-style:normal;font-weight:700;opacity:0.75;display:flex;align-items:center;gap:6px;}
+  .author-quote cite::before{content:'—';opacity:0.5;}
+
+  .aq-teal{background:var(--ice);color:var(--teal);border-left:4px solid var(--teal);}
+  .aq-green{background:#F0FAF4;color:var(--green);border-left:4px solid var(--green);}
+  .aq-amber{background:#FFF8E1;color:var(--amber);border-left:4px solid var(--amber);}
+  .aq-purple{background:#F5EEF8;color:var(--purple);border-left:4px solid var(--purple);}
+  .aq-blue{background:#EAF2FB;color:var(--blue);border-left:4px solid var(--blue);}
+  .aq-navy{background:#EEF2FA;color:var(--navy);border-left:4px solid var(--navy);}
+
+  .tip-highlight{
+    display:flex;gap:10px;align-items:flex-start;
+    background:var(--offwhite);border-radius:8px;padding:11px 14px;
+    margin-top:10px;font-size:13px;
+  }
+  .tip-highlight::before{content:'💡';flex-shrink:0;}
+
+  .tip-dos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  @media(max-width:560px){.tip-dos{grid-template-columns:1fr;}}
+  .tip-do{background:#D4EDDA;border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--green);}
+  .tip-do strong{display:block;font-size:10px;letter-spacing:1px;margin-bottom:4px;opacity:0.75;}
+  .tip-dont{background:#FDECEA;border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--red);}
+  .tip-dont strong{display:block;font-size:10px;letter-spacing:1px;margin-bottom:4px;opacity:0.75;}
+
+  /* BADGES */
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.5px;}
+  .badge-rf{background:#D4EDDA;color:var(--green);}
+  .badge-rnf{background:#FFF3CD;color:var(--amber);}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:rgba(255,255,255,0.6);margin-top:80px;font-size:12px;line-height:1.7;}
+  .footer-top{border-top:3px solid var(--gold);}
+  .footer-inner{max-width:1080px;margin:0 auto;padding:40px 32px 28px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;}
+  @media(max-width:680px){.footer-inner{grid-template-columns:1fr;text-align:center;}}
+  .footer-logo{width:88px;height:88px;border-radius:12px;object-fit:contain;background:white;padding:6px;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+  .footer-logo-placeholder{width:88px;height:88px;border-radius:12px;background:rgba(255,255,255,0.1);border:2px dashed rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:28px;}
+  .footer-center{}
+  .footer-uni{font-size:15px;font-weight:800;color:white;letter-spacing:0.3px;margin-bottom:2px;}
+  .footer-prog{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px;}
+  .footer-divider{height:1px;background:rgba(255,255,255,0.12);margin:10px 0;}
+  .footer-docente-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:5px;}
+  .footer-docente-name{font-size:14px;font-weight:700;color:white;margin-bottom:2px;}
+  .footer-docente-title{font-size:12px;color:rgba(255,255,255,0.6);}
+  .footer-right{text-align:right;}
+  @media(max-width:680px){.footer-right{text-align:center;}}
+  .footer-subject-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:5px;}
+  .footer-subject{font-size:13px;font-weight:700;color:white;margin-bottom:4px;}
+  .footer-unit{font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px;}
+  .footer-sources{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6;}
+  .footer-bottom{background:rgba(0,0,0,0.25);text-align:center;padding:12px 24px;font-size:11px;color:rgba(255,255,255,0.35);}
+  .footer-bottom strong{color:rgba(255,255,255,0.55);}
+
+  .mb16{margin-bottom:16px;} .mb24{margin-bottom:24px;} .mt8{margin-top:8px;}
+  .divider{height:1px;background:var(--border);margin:36px 0;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="topnav">
+  <span class="brand">IS · Unidad 3</span>
+  <a href="#conceptos">Conceptos</a>
+  <a href="#elicitacion">Elicitación</a>
+  <a href="#tecnicas">Técnicas</a>
+  <a href="#tipos">Tipos RF/RNF</a>
+  <a href="#documentacion">Documentación</a>
+  <a href="#especificacion">Especificación</a>
+  <a href="#ejercicio">Ejercicio</a>
+  <a href="#evaluacion">Evaluación</a>
+  <a href="#docente">Tips &amp; Conceptos</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-accent"></div>
+  <div class="hero-content">
+
+    
+      
+
+    <div class="hero-tag">Unidad 3 · Ingeniería de Software I</div>
+    <h1>Ingeniería de<br><span>Requerimientos</span></h1>
+    <p class="hero-sub">Material completo de clase: conceptos, técnicas de elicitación, especificación IEEE 830, historias de usuario y ejercicio práctico grupal.</p>
+    <div class="hero-meta">
+      <span>⏱ Duración: ~2 horas</span>
+      <span>👥 Equipos de 3–4 estudiantes</span>
+      <span>🎓 Ingeniería de Sistemas · Pregrado</span>
+    </div>
+    <div class="pascual-badge">
+      📘 Fuente complementaria: <strong>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</strong> · "Aplicando la Fase de Análisis y Especificación de Requisitos"
+    </div>
+    <nav class="hero-nav">
+      <a href="#conceptos" class="primary">Ver material teórico</a>
+      <a href="#ejercicio" class="ghost">Ir al ejercicio práctico</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrapper">
+
+<!-- ═══════════════════════════════ -->
+<!-- 01 OBJETIVOS -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="conceptos">
+  <div class="sec-num" style="background:var(--teal)">01</div>
+  <div><h2>Objetivos de Aprendizaje</h2><p>Al finalizar la sesión el estudiante será capaz de:</p></div>
+</div>
+<div class="obj-grid">
+  <div class="obj-card" style="background:linear-gradient(135deg,var(--teal),#0a5f70)" data-num="01">
+    <div class="obj-num">OBJETIVO 01</div>
+    <div class="obj-title">Conceptualizar</div>
+    <div class="obj-desc">Definir qué es un requerimiento y en qué consiste la Ingeniería de Requerimientos como disciplina de la IS.</div>
+  </div>
+  <div class="obj-card" style="background:linear-gradient(135deg,var(--green),#0f5233)" data-num="02">
+    <div class="obj-num">OBJETIVO 02</div>
+    <div class="obj-title">Elicitar y Clasificar</div>
+    <div class="obj-desc">Aplicar técnicas de elicitación y distinguir entre requerimientos funcionales y no funcionales con ejemplos reales.</div>
+  </div>
+  <div class="obj-card" style="background:linear-gradient(135deg,var(--amber),#a35000)" data-num="03">
+    <div class="obj-num">OBJETIVO 03</div>
+    <div class="obj-title">Especificar y Documentar</div>
+    <div class="obj-desc">Redactar requerimientos con buenas prácticas (IEEE 830 / Historias de Usuario) de forma clara y verificable.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- 02 QUÉ ES UN REQUERIMIENTO -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" style="padding-top:52px">
+  <div class="sec-num" style="background:var(--navy)">02</div>
+  <div><h2>¿Qué es un Requerimiento?</h2><p>Fundamento conceptual de la Ingeniería de Requerimientos</p></div>
+</div>
+
+<div class="def-box">
+  "Un requerimiento es una condición o capacidad que el sistema debe satisfacer para cumplir con las necesidades, objetivos o restricciones del usuario, del cliente o del negocio."
+</div>
+
+<div class="card">
+  <ul class="bullet-list">
+    <li>Expresan <strong>QUÉ</strong> debe hacer el sistema, no <strong>CÓMO</strong> implementarlo técnicamente.</li>
+    <li>Provienen de diversas fuentes: usuarios, clientes, normativas, regulaciones y estándares del sector.</li>
+    <li>Son la base para el diseño, desarrollo, pruebas y validación del software en todas sus fases.</li>
+    <li>Un error en requerimientos puede costar hasta <strong>60 o 100 veces más</strong> si se corrige en producción que al inicio del proyecto.</li>
+    <li>Los requerimientos cambian durante el proyecto: deben gestionarse activamente para evitar el caos.</li>
+    <li>En la mayoría de los casos, <em>los clientes no saben explicar con precisión lo que realmente necesitan</em> — por eso se necesitan técnicas especializadas de elicitación.</li>
+  </ul>
+</div>
+
+<!-- Imagen árbol -->
+<div class="card mt8" style="text-align:center;padding:22px 18px;">
+  <div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">El clásico problema de comunicación en IS</div>
+  <img
+    src="data:image/png;base64,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"
+    alt="Figura 1. Necesidades del cliente — problemas de comunicación en Ingeniería de Software"
+    style="max-width:420px;width:100%;border-radius:10px;box-shadow:0 4px 18px rgba(26,46,90,0.13);border:1px solid var(--border);"
+    onerror="this.style.display='none';document.getElementById('tree-fallback').style.display='grid';"
+  />
+  <div id="tree-fallback" style="display:none;grid-template-columns:repeat(3,1fr);gap:2px;max-width:420px;margin:0 auto;">
+    <div style="background:var(--offwhite);border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid var(--border);">🌳<br><strong style="color:var(--teal)">Así lo explicó</strong><br>el cliente</div>
+    <div style="background:var(--offwhite);border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid var(--border);">🌲<br><strong style="color:var(--amber)">Así lo entendió</strong><br>el jefe de proyecto</div>
+    <div style="background:var(--offwhite);border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid var(--border);">🌵<br><strong style="color:var(--red)">Así lo diseñó</strong><br>el analista</div>
+    <div style="background:var(--offwhite);border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid var(--border);">🪵<br><strong style="color:var(--purple)">Así lo escribió</strong><br>el programador</div>
+    <div style="background:var(--offwhite);border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid var(--border);">🛋️<br><strong style="color:var(--navy)">Así lo describió</strong><br>marketing</div>
+    <div style="background:#D4EDDA;border-radius:8px;padding:14px 10px;font-size:12px;border:1px solid #A9DFBF;">🪂<br><strong style="color:var(--green)">Lo que el cliente</strong><br>realmente necesitaba</div>
+  </div>
+  <div style="font-size:11px;color:var(--muted);margin-top:12px;font-style:italic;">Figura 1. Necesidades del cliente — Problemas de comunicación en Ingeniería de Software · Herrera Betancur (2020)</div>
+</div>
+
+
+<!-- ═══════════════════════════════ -->
+<!-- 03 ELICITACIÓN -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="elicitacion">
+  <div class="sec-num" style="background:var(--teal)">03</div>
+  <div><h2>Elicitación de Requerimientos</h2><p>El proceso de identificar y capturar las necesidades del cliente</p></div>
+</div>
+
+<div class="source-tag src-pascual">📘 Fuente: Herrera Betancur — Pascual Bravo (2020)</div>
+
+<div class="def-box green">
+  La elicitación de requisitos es el proceso por medio del cual se identifican las necesidades del cliente para el desarrollo de software. La correcta identificación de estos requisitos representa un punto de partida sólido para el desarrollo del sistema.
+</div>
+
+<div class="card mb16">
+  <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">¿Por qué es crítica la elicitación?</div>
+  <ul class="bullet-list">
+    <li>Los problemas en esta etapa afectan directamente <strong>todas las demás etapas</strong> del ciclo de vida del software.</li>
+    <li>El costo de cambio por no identificar adecuadamente los requisitos puede ser <strong>60 a 100 veces superior</strong> al costo de hacerlo bien desde el inicio.</li>
+    <li>Requiere <strong>comunicación continua</strong> con el cliente y los stakeholders usando múltiples técnicas.</li>
+    <li>El analista debe identificar las necesidades reales del cliente y el impacto del desarrollo sobre personas y organización.</li>
+  </ul>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card" style="background:linear-gradient(135deg,#c0392b,#922b21)"><div class="stat-val">~50%</div><div class="stat-label">de proyectos fallan por requerimientos mal definidos</div></div>
+  <div class="stat-card" style="background:linear-gradient(135deg,var(--amber),#a35000)"><div class="stat-val">×100</div><div class="stat-label">más costoso corregir en producción que en análisis</div></div>
+  <div class="stat-card" style="background:linear-gradient(135deg,var(--teal),#095e6d)"><div class="stat-val">Causa #1</div><div class="stat-label">de retrasos y sobrecostos en proyectos de software</div></div>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- 04 TÉCNICAS -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="tecnicas">
+  <div class="sec-num" style="background:var(--green)">04</div>
+  <div><h2>Técnicas de Elicitación</h2><p>Herramientas para extraer información del cliente y los stakeholders</p></div>
+</div>
+
+<div class="source-tag src-pascual">📘 Fuente: Herrera Betancur — Pascual Bravo (2020)</div>
+
+<div class="tech-grid">
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--teal)">🎤 Entrevistas y Cuestionarios</div>
+    <div class="tech-body">Conversación directa con clientes y usuarios para identificar sus necesidades, expectativas y restricciones. Es la técnica más común y fundamental.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--green)">💡 Lluvia de Ideas (Brainstorm)</div>
+    <div class="tech-body">Sesión grupal de generación libre de ideas con el equipo y stakeholders. Permite identificar funcionalidades no evidentes y resolver problemas creativamente.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--amber)">🔍 Análisis de Sistemas Existentes</div>
+    <div class="tech-body">Revisión del sistema actual (manual o digital) para identificar sus deficiencias y las mejoras que el nuevo sistema debe incorporar.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--purple)">📐 Prototipos</div>
+    <div class="tech-body">Creación de modelos visuales del sistema (wireframes, mockups) para que el cliente valide la comprensión de sus necesidades antes del desarrollo.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--blue)">👁️ Observación</div>
+    <div class="tech-body">El analista observa directamente cómo trabajan los usuarios actuales. Permite identificar necesidades implícitas que el cliente no sabe verbalizar.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:var(--red)">📄 Estudio de Documentación</div>
+    <div class="tech-body">Análisis de documentos existentes: manuales, formatos, informes y procedimientos del cliente para entender el contexto del sistema.</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:#795548)">🧩 Casos de Uso</div>
+    <div class="tech-body">Modelado de la interacción entre actores y el sistema. Permiten documentar qué hace el sistema desde la perspectiva del usuario (UML).</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:#546E7A">🗺️ Mapa de Impacto</div>
+    <div class="tech-body">Herramienta ágil (Gojko Adzic) que organiza los objetivos del proyecto respondiendo: ¿Por qué? ¿Quién? ¿Cómo? ¿Qué?</div>
+  </div>
+  <div class="tech-card">
+    <div class="tech-head" style="background:#00796B">🎨 Design Thinking</div>
+    <div class="tech-body">Metodología centrada en el usuario que combina empatía, definición, ideación, prototipado y prueba para entender profundamente las necesidades reales.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- 05 TIPOS RF / RNF -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="tipos">
+  <div class="sec-num" style="background:var(--amber)">05</div>
+  <div><h2>Tipos de Requerimientos</h2><p>Funcionales y No Funcionales — diferencias fundamentales</p></div>
+</div>
+
+<div class="two-col">
+  <div class="col-card">
+    <div class="col-head" style="background:var(--green)">✔ Requerimientos Funcionales (RF)</div>
+    <div class="col-body">
+      <div class="def-box green" style="margin-top:0">Están relacionados con las <strong>funcionalidades</strong> que tendrá la herramienta de software. También especifican la comunicación que el software puede tener con otros sistemas, e indican explícitamente lo que el software <em>no debe hacer</em>.</div>
+      <ul class="bullet-list mb16">
+        <li class="green">Expresan <em>qué hace</em> el sistema para cada tipo de usuario.</li>
+        <li class="green">Se derivan de las necesidades del negocio y del usuario.</li>
+        <li class="green">Son verificables mediante casos de prueba funcionales.</li>
+        <li class="green">Forma: <em>"El sistema [verbo] [objeto] [condición]."</em></li>
+      </ul>
+      <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;letter-spacing:0.5px">EJEMPLOS</div>
+      <div class="col-item"><span class="code">RF01</span>El sistema permitirá al usuario registrarse con correo electrónico y contraseña.</div>
+      <div class="col-item"><span class="code">RF02</span>El sistema mostrará el historial de transacciones de los últimos 90 días.</div>
+      <div class="col-item"><span class="code">RF03</span>El sistema generará reportes en PDF cuando el administrador lo solicite.</div>
+      <div class="col-item"><span class="code">RF04</span>El sistema bloqueará la cuenta tras cinco intentos fallidos consecutivos.</div>
+    </div>
+  </div>
+  <div class="col-card">
+    <div class="col-head" style="background:var(--amber)">★ Requerimientos No Funcionales (RNF)</div>
+    <div class="col-body">
+      <div class="def-box amber" style="margin-top:0">No hacen referencia a funcionalidades de la herramienta, sino a <strong>características o propiedades</strong> que debe tener el sistema, como rendimiento, disponibilidad y seguridad.</div>
+      <ul class="bullet-list mb16">
+        <li class="amber">No describen funciones, sino <em>cómo de bien</em> funciona el sistema.</li>
+        <li class="amber">Se verifican con métricas, benchmarks y auditorías.</li>
+        <li class="amber">Son transversales: aplican a todo el sistema.</li>
+        <li class="amber">Su incumplimiento hace el sistema inaceptable aunque funcione.</li>
+      </ul>
+      <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;letter-spacing:0.5px">EJEMPLOS POR CATEGORÍA</div>
+      <div class="col-item"><span class="code">RENDIMIENTO</span>El sistema responderá en ≤ 2 s bajo 1.000 usuarios simultáneos.</div>
+      <div class="col-item"><span class="code">SEGURIDAD</span>Los datos se almacenarán cifrados con AES-256 en reposo y en tránsito.</div>
+      <div class="col-item"><span class="code">DISPONIBILIDAD</span>Disponibilidad ≥ 99,9% mensual (máx. 43 min de caída).</div>
+      <div class="col-item"><span class="code">USABILIDAD</span>Usuario nuevo completa el registro en menos de 3 minutos.</div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt8">
+  <table class="cmp-table">
+    <thead><tr><th>Aspecto</th><th>Funcionales (RF)</th><th>No Funcionales (RNF)</th></tr></thead>
+    <tbody>
+      <tr><td class="asp">¿Qué describen?</td><td class="rf">Funciones, acciones y comportamientos</td><td class="rnf">Restricciones y atributos de calidad</td></tr>
+      <tr><td class="asp">¿Quién los origina?</td><td class="rf">Usuarios y clientes</td><td class="rnf">Arquitectos, regulaciones, estándares</td></tr>
+      <tr><td class="asp">¿Cómo se verifican?</td><td class="rf">Casos de prueba (pasa/falla)</td><td class="rnf">Métricas, benchmarks, auditorías</td></tr>
+      <tr><td class="asp">Ejemplo</td><td class="rf">"El sistema registrará pedidos."</td><td class="rnf">"Responderá en &lt; 2 segundos."</td></tr>
+      <tr><td class="asp">Si faltan...</td><td class="rf">El sistema no hace lo que se necesita</td><td class="rnf">Funciona pero con mala calidad</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- 06 DOCUMENTACIÓN ÁGIL -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="documentacion">
+  <div class="sec-num" style="background:var(--purple)">06</div>
+  <div><h2>Documentación de Requerimientos</h2><p>Enfoques tradicional (IEEE 830) vs. ágil (Historias de Usuario)</p></div>
+</div>
+
+<div class="source-tag src-pascual">📘 Fuente: Herrera Betancur — Pascual Bravo (2020)</div>
+
+<div class="warn-box">
+  ⚡ Las metodologías ágiles valoran <strong>"el software funcionando sobre la documentación extensiva"</strong>, lo que no significa <em>no documentar</em> — significa documentar de forma <strong>flexible, liviana y útil</strong> para el equipo.
+</div>
+
+<!-- MAPA DE IMPACTO -->
+<div style="font-size:15px;font-weight:700;color:var(--navy);margin:20px 0 10px;">🗺️ Mapa de Impacto (Impact Mapping)</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Herramienta ágil creada por Gojko Adzic para alinear los objetivos del negocio con las funcionalidades del sistema.</div>
+<div class="impact-map">
+  <div class="im-col" style="background:var(--navy);color:white"><h4>¿POR QUÉ?</h4><p>Objetivos del proyecto y metas que se tienen al implementarlo.</p></div>
+  <div class="im-col" style="background:var(--teal);color:white"><h4>¿QUIÉN?</h4><p>Stakeholders: personas que afectan o son afectadas por el proyecto.</p></div>
+  <div class="im-col" style="background:var(--green);color:white"><h4>¿CÓMO?</h4><p>Impacto que tienen los stakeholders y cómo el sistema puede ayudarlos.</p></div>
+  <div class="im-col" style="background:var(--amber);color:white"><h4>¿QUÉ?</h4><p>Funcionalidades a alto nivel que se deben desarrollar para cumplir objetivos.</p></div>
+</div>
+
+<!-- USER STORY MAPPING -->
+<div style="font-size:15px;font-weight:700;color:var(--navy);margin:24px 0 10px;">📋 Historias de Usuario</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:14px;">La técnica más utilizada en metodologías ágiles para documentar los requerimientos del sistema. En Scrum las escribe el <strong>Product Owner</strong>; en XP las escribe el usuario.</div>
+
+<div class="us-template">
+  <div class="us-label">PLANTILLA ESTÁNDAR</div>
+  <div class="us-text">
+    Como <span>[tipo de usuario]</span>, quiero <span>[funcionalidad]</span> para <span>[beneficio / valor de negocio]</span>.
+  </div>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="us-example">
+      <div class="label">EJEMPLO RF — Historia de Usuario</div>
+      <strong>Como</strong> recepcionista, <strong>quiero</strong> registrar nuevos pacientes ingresando nombre, cédula, teléfono y correo, <strong>para</strong> tener sus datos disponibles al asignar turnos y citas médicas.
+    </div>
+    <div class="us-example">
+      <div class="label">EJEMPLO RF — Historia de Usuario</div>
+      <strong>Como</strong> médico, <strong>quiero</strong> llamar al siguiente paciente con un solo clic desde mi consultorio, <strong>para</strong> agilizar la atención sin depender del personal de recepción.
+    </div>
+  </div>
+  <div>
+    <div class="us-example">
+      <div class="label">CRITERIOS DE ACEPTACIÓN (RNF incorporado)</div>
+      <strong>Historia:</strong> El sistema mostrará el turno actual en pantallas de sala de espera.<br><br>
+      <strong>Criterio 1:</strong> La pantalla debe actualizarse en menos de 3 segundos tras llamar al paciente.<br>
+      <strong>Criterio 2:</strong> El texto debe ser visible a 5 metros de distancia (fuente ≥ 48pt).
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">🔄 Flujo de documentación ágil (Scrum)</div>
+  <div style="display:flex;flex-wrap:wrap;gap:0;border-radius:10px;overflow:hidden;margin-bottom:14px;">
+    <div style="flex:1;min-width:140px;background:var(--navy);color:white;padding:14px 12px;text-align:center"><div style="font-size:10px;opacity:0.7;margin-bottom:4px">PASO 1</div><div style="font-size:12px;font-weight:700">Mapa de Impacto</div><div style="font-size:11px;opacity:0.75;margin-top:4px">¿Por qué? ¿Quién? ¿Cómo? ¿Qué?</div></div>
+    <div style="flex:1;min-width:140px;background:var(--teal);color:white;padding:14px 12px;text-align:center"><div style="font-size:10px;opacity:0.7;margin-bottom:4px">PASO 2</div><div style="font-size:12px;font-weight:700">User Story Mapping</div><div style="font-size:11px;opacity:0.75;margin-top:4px">Priorizar acciones y funcionalidades</div></div>
+    <div style="flex:1;min-width:140px;background:var(--green);color:white;padding:14px 12px;text-align:center"><div style="font-size:10px;opacity:0.7;margin-bottom:4px">PASO 3</div><div style="font-size:12px;font-weight:700">Product Backlog</div><div style="font-size:11px;opacity:0.75;margin-top:4px">Lista priorizada de todas las HU</div></div>
+    <div style="flex:1;min-width:140px;background:var(--amber);color:white;padding:14px 12px;text-align:center"><div style="font-size:10px;opacity:0.7;margin-bottom:4px">PASO 4</div><div style="font-size:12px;font-weight:700">Sprint Backlog</div><div style="font-size:11px;opacity:0.75;margin-top:4px">HU seleccionadas para cada Sprint</div></div>
+  </div>
+  <div style="font-size:12px;color:var(--muted);font-style:italic;">Herramientas recomendadas para gestionar el backlog: <strong>Trello · Miro · Jira</strong></div>
+</div>
+
+<!-- ═══════════════════════════════ -->
+<!-- 07 ESPECIFICACIÓN IEEE -->
+<!-- ═══════════════════════════════ -->
+<div class="sec-header" id="especificacion">
+  <div class="sec-num" style="background:var(--blue)">07</div>
+  <div><h2>Especificación de Requerimientos</h2><p>Buenas prácticas y estándar IEEE 830</p></div>
+</div>
+
+<div class="source-tag src-ieee">📋 Referencia: IEEE Std 830 — Especificación de Requisitos de Software</div>
+
+<div class="ieee-box">
+  <h4>📄 Estructura del documento IEEE 830 (SRS — Software Requirements Specification)</h4>
+  <div class="ieee-sections">
+    <div class="ieee-sec"><strong>1. Introducción</strong>Propósito, alcance, definiciones y referencias del documento.</div>
+    <div class="ieee-sec"><strong>2. Descripción General</strong>Perspectiva, funciones principales, usuarios, restricciones y suposiciones.</div>
+    <div class="ieee-sec"><strong>3. Requerimientos Específicos</strong>RF detallados, RNF, interfaces externas y restricciones de diseño.</div>
+    <div class="ieee-sec"><strong>4. Apéndices</strong>Información adicional, glosario, modelos y diagramas de apoyo.</div>
+  </div>
+</div>
+
+<div style="font-size:15px;font-weight:700;color:var(--navy);margin:20px 0 14px;">Características de un Buen Requerimiento</div>
+<div class="quality-grid">
+  <div class="q-card"><div class="q-icon" style="background:var(--teal)">C</div><div><div class="q-title">Claro</div><div class="q-desc">Sin ambigüedad: un solo significado posible para todos los involucrados.</div></div></div>
+  <div class="q-card"><div class="q-icon" style="background:var(--green)">Co</div><div><div class="q-title">Completo</div><div class="q-desc">Incluye toda la información necesaria para diseñar e implementar la solución.</div></div></div>
+  <div class="q-card"><div class="q-icon" style="background:var(--amber)">V</div><div><div class="q-title">Verificable</div><div class="q-desc">Se puede probar con criterios objetivos. Evitar: "rápido", "fácil" sin cifras.</div></div></div>
+  <div class="q-card"><div class="q-icon" style="background:var(--purple)">Cs</div><div><div class="q-title">Consistente</div><div class="q-desc">No contradice ni entra en conflicto con ningún otro requerimiento.</div></div></div>
+  <div class="q-card"><div class="q-icon" style="background:var(--blue)">P</div><div><div class="q-title">Priorizado</div><div class="q-desc">Tiene asignado un nivel de importancia acordado con el cliente.</div></div></div>
+  <div class="q-card"><div class="q-icon" style="background:var(--red)">T</div><div><div class="q-title">Trazable</div><div class="q-desc">Rastreable desde su origen hasta su implementación y prueba.</div></div></div>
+</div>
+
+<div class="two-col mt8">
+  <div class="col-card">
+    <div class="col-head" style="background:var(--green)">✔ Funcionales bien redactados</div>
+    <div class="col-body">
+      <div class="col-item"><span class="code">RF01</span>El sistema permitirá al usuario registrarse con correo y contraseña, validando el formato antes de confirmar.</div>
+      <div class="col-item"><span class="code">RF02</span>El módulo generará archivos PDF con datos filtrados por el rango de fechas seleccionado por el usuario.</div>
+      <div class="col-item"><span class="code">RF03</span>El sistema enviará correo de confirmación en máximo 2 minutos tras completar una transacción exitosa.</div>
+      <div class="col-item"><span class="code">RF04</span>El administrador podrá activar o desactivar cuentas desde el panel de administración.</div>
+      <div class="col-item"><span class="code">RF05</span>El sistema calculará el total de la factura con los impuestos vigentes según normativa tributaria colombiana.</div>
+    </div>
+  </div>
+  <div class="col-card">
+    <div class="col-head" style="background:var(--amber)">★ No Funcionales bien redactados</div>
+    <div class="col-body">
+      <div class="col-item"><span class="code">RNF01</span>El sistema responderá a cualquier solicitud en máximo 2 segundos bajo 500 usuarios concurrentes.</div>
+      <div class="col-item"><span class="code">RNF02</span>La información se almacenará cifrada con AES-256; las contraseñas como hash bcrypt (costo ≥ 12).</div>
+      <div class="col-item"><span class="code">RNF03</span>La interfaz será responsiva y compatible con Chrome, Firefox y Edge en sus últimas dos versiones.</div>
+      <div class="col-item"><span class="code">RNF04</span>Disponibilidad mínima del 99,5% mensual (menos de 3,6 horas de inactividad total).</div>
+      <div class="col-item"><span class="code">RNF05</span>El código alcanzará al menos 75% de cobertura con pruebas unitarias automatizadas.</div>
+    </div>
+  </div>
+</div>
+
+<div class="tips-box">
+  <h4>✅ Recomendaciones finales al iniciar la elicitación (Herrera Betancur, 2020)</h4>
+  <div class="tip-item">Tener comunicación directa y continua con el cliente y todos los stakeholders del proyecto.</div>
+  <div class="tip-item">Escuchar primero la descripción completa del problema — esto da visión global antes de entrar en detalles.</div>
+  <div class="tip-item">Tomar nota y apoyarse en elementos escritos para no olvidar detalles importantes de las conversaciones.</div>
+  <div class="tip-item">Usar Wireframes para aclarar requerimientos cuando el cliente no puede describirlos verbalmente.</div>
+  <div class="tip-item">Tener claro y por escrito el <strong>alcance del sistema</strong> y las condiciones de entrega antes de comenzar el desarrollo.</div>
+  <div class="tip-item">Tener en cuenta la <strong>infraestructura técnica</strong> sobre la cual será implementado el sistema desde el inicio.</div>
+</div>
+
+</div><!-- END WRAPPER -->
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- EJERCICIO PRÁCTICO -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="wrapper" id="ejercicio">
+
+<div class="exercise-hero">
+  <h2>Ejercicio Práctico en Clase</h2>
+  <p>Actividad grupal de 40–50 minutos para identificar, clasificar y redactar correctamente los requerimientos de un sistema real.</p>
+  <div class="exercise-tags">
+    <span>⏱ 40–50 min</span>
+    <span>👥 Equipos de 3–4</span>
+    <span>📋 3 Actividades</span>
+    <span>Sistema de Gestión de Turnos Médicos</span>
+  </div>
+</div>
+
+<!-- CASO -->
+<div class="sec-header">
+  <div class="sec-num" style="background:var(--teal)">📄</div>
+  <div><h2>Estudio de Caso</h2><p>Lean con atención antes de comenzar</p></div>
+</div>
+
+<div class="case-box">
+  <div class="case-head">
+    <h3>Sistema de Gestión de Turnos y Citas Médicas — Clínica "Salud Total"</h3>
+    <p>Ciudad intermedia de Colombia · ~350 pacientes diarios · Consulta externa, urgencias, laboratorio</p>
+  </div>
+  <div class="case-body">
+    <p><strong>Contexto:</strong> La Clínica "Salud Total" opera actualmente de forma manual: los pacientes llegan al mostrador, solicitan turno en papel y esperan ser llamados por nombre en voz alta. Esto genera largas filas, confusión entre usuarios, errores en la asignación de turnos y pérdidas de información.</p>
+    <p><strong>Situación:</strong> La directora administrativa, Dra. Martina Vargas, ha contratado un equipo de desarrollo para construir un <em>Sistema de Gestión de Turnos y Citas Médicas</em>. En la reunión inicial (proceso de elicitación) compartió las siguientes necesidades:</p>
+    <div class="case-needs">
+      <h4>NECESIDADES EXPRESADAS EN LA REUNIÓN DE ELICITACIÓN</h4>
+      <div class="need-item"><div class="need-num">1</div><span>Los pacientes deben poder sacar turno de forma presencial (taquete físico) o desde la aplicación móvil de la clínica.</span></div>
+      <div class="need-item"><div class="need-num">2</div><span>El sistema debe mostrar en pantallas de sala de espera el número de turno actual y el nombre del paciente.</span></div>
+      <div class="need-item"><div class="need-num">3</div><span>Los médicos y enfermeras deben poder llamar al siguiente paciente desde su consultorio con un solo clic.</span></div>
+      <div class="need-item"><div class="need-num">4</div><span>El sistema debe permitir agendar citas médicas con anticipación (hasta 30 días), asignando médico, especialidad, fecha y hora.</span></div>
+      <div class="need-item"><div class="need-num">5</div><span>La recepcionista debe poder registrar nuevos pacientes con sus datos básicos: nombre, cédula, fecha de nacimiento, teléfono y correo.</span></div>
+      <div class="need-item"><div class="need-num">6</div><span>El administrador debe poder generar reportes de atención diaria, semanal y mensual en formato Excel o PDF.</span></div>
+      <div class="need-item"><div class="need-num">7</div><span>El sistema no debe caerse en horas pico (entre 7:00 a.m. y 11:00 a.m. se atienden hasta 120 pacientes por hora).</span></div>
+      <div class="need-item"><div class="need-num">8</div><span>La aplicación debe ser fácil de usar para personas mayores de 60 años, que representan el 40% de los usuarios.</span></div>
+      <div class="need-item"><div class="need-num">9</div><span>Toda la información de los pacientes debe estar protegida conforme a la Ley 1581 de 2012 (habeas data en Colombia).</span></div>
+      <div class="need-item"><div class="need-num">10</div><span>El sistema debe funcionar en tablets, computadores de escritorio y teléfonos inteligentes.</span></div>
+      <div class="need-item"><div class="need-num">11</div><span>El personal administrativo no debe necesitar más de 2 horas de capacitación para usar el sistema.</span></div>
+      <div class="need-item"><div class="need-num">12</div><span>El sistema debe registrar un historial de citas y turnos por paciente para consulta futura por parte del médico.</span></div>
+    </div>
+    <table class="actors-table">
+      <thead><tr><th>Actor</th><th>Rol en el sistema</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Paciente</strong></td><td>Solicita turnos y citas; consulta su estado de atención desde la app o en sala de espera.</td></tr>
+        <tr><td><strong>Recepcionista</strong></td><td>Registra pacientes, gestiona turnos presenciales y apoya el agendamiento de citas.</td></tr>
+        <tr><td><strong>Médico / Enfermera</strong></td><td>Llama al siguiente paciente y consulta el historial de citas desde el consultorio.</td></tr>
+        <tr><td><strong>Administrador</strong></td><td>Genera reportes, configura el sistema y gestiona perfiles de usuario.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ACTIVIDADES -->
+<div class="sec-header" id="actividades">
+  <div class="sec-num" style="background:var(--navy)">📝</div>
+  <div><h2>Actividades</h2><p>Completen en orden. Cada actividad construye sobre la anterior.</p></div>
+</div>
+
+<div class="activity">
+  <div class="act-head" style="background:var(--teal)">
+    <div class="act-num">1</div>
+    <div class="act-title">Identificación de Requerimientos</div>
+    <div class="act-time">⏱ 15 min</div>
+  </div>
+  <div class="act-body">
+    <p><strong>Instrucción:</strong> Lean el caso. Identifiquen al menos <strong>10 requerimientos</strong> del sistema a partir de las necesidades expresadas. Escríbanlos en la tabla de entregable.</p>
+    <p>Recuerden: un requerimiento expresa una <em>capacidad o restricción concreta del sistema</em>, no una descripción del proceso actual.</p>
+    <div class="act-tip">💡 <strong>Técnica:</strong> Apliquen lo aprendido sobre elicitación — busquen verbos de acción (<em>registrar, mostrar, generar, proteger, notificar, calcular…</em>) en el texto. Cada verbo suele corresponder a un requerimiento.</div>
+  </div>
+</div>
+
+<div class="activity">
+  <div class="act-head" style="background:var(--green)">
+    <div class="act-num">2</div>
+    <div class="act-title">Clasificación con Justificación</div>
+    <div class="act-time">⏱ 10 min</div>
+  </div>
+  <div class="act-body">
+    <p><strong>Instrucción:</strong> Clasifiquen cada requerimiento como <span class="badge badge-rf">RF</span> o <span class="badge badge-rnf">RNF</span>. En la columna "Justificación" expliquen <em>por qué</em> lo clasificaron así.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+      <div style="background:#D4EDDA;border-radius:8px;padding:12px 14px"><div style="font-weight:700;color:var(--green);font-size:11px;margin-bottom:6px">ES RF si...</div><div style="font-size:12.5px">Describe una acción, función o servicio que el sistema realiza para un actor.</div></div>
+      <div style="background:#FFF3CD;border-radius:8px;padding:12px 14px"><div style="font-weight:700;color:var(--amber);font-size:11px;margin-bottom:6px">ES RNF si...</div><div style="font-size:12.5px">Describe una restricción de calidad: rendimiento, seguridad, usabilidad, disponibilidad, portabilidad…</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="activity">
+  <div class="act-head" style="background:var(--amber)">
+    <div class="act-num">3</div>
+    <div class="act-title">Reescritura con Buenas Prácticas</div>
+    <div class="act-time">⏱ 15 min</div>
+  </div>
+  <div class="act-body">
+    <p><strong>Instrucción:</strong> Los siguientes requerimientos están mal redactados. Apliquen las características IEEE (claro, completo, verificable, consistente) y reescríbanlos correctamente.</p>
+    <table class="bad-table" style="margin-top:12px">
+      <thead><tr><th>N°</th><th>Tipo</th><th>Requerimiento MAL redactado</th><th>Problema</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="badge badge-rf">RF</span></td><td class="bad-req">"El sistema debe ser rápido al mostrar los turnos."</td><td class="prob">Ambiguo: "rápido" no es medible.</td></tr>
+        <tr><td>2</td><td><span class="badge badge-rf">RF</span></td><td class="bad-req">"Los usuarios podrán hacer cosas en el sistema."</td><td class="prob">Incompleto y vago: no especifica qué acciones ni qué usuarios.</td></tr>
+        <tr><td>3</td><td><span class="badge badge-rnf">RNF</span></td><td class="bad-req">"El sistema debe ser seguro y proteger los datos."</td><td class="prob">Sin estándar, sin tipo de dato, sin mecanismo.</td></tr>
+        <tr><td>4</td><td><span class="badge badge-rnf">RNF</span></td><td class="bad-req">"El sistema no debe fallar."</td><td class="prob">No verificable. Sin métrica de disponibilidad.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ENTREGABLE -->
+<div class="sec-header"><div class="sec-num" style="background:var(--navy)">📤</div><div><h2>Tabla de Entregable</h2></div></div>
+
+<div class="card mb16">
+  <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">Actividades 1 y 2 — Identificación y Clasificación</div>
+  <table class="delivery-table">
+    <thead><tr><th style="width:36px">N°</th><th>Requerimiento identificado</th><th style="width:110px">Tipo</th><th>Justificación</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>2</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>3</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>4</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>5</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>6</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>7</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>8</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>9</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>10</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>11</td><td class="empty-cell"></td><td></td><td></td></tr>
+      <tr><td>12</td><td class="empty-cell"></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card mb24">
+  <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">Actividad 3 — Reescritura</div>
+  <table class="delivery-table">
+    <thead><tr><th style="width:36px">N°</th><th>Requerimiento original</th><th>Requerimiento mejorado</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td style="color:#999;font-style:italic;font-size:12px">"El sistema debe ser rápido al mostrar los turnos."</td><td class="empty-cell"></td></tr>
+      <tr><td>2</td><td style="color:#999;font-style:italic;font-size:12px">"Los usuarios podrán hacer cosas en el sistema."</td><td class="empty-cell"></td></tr>
+      <tr><td>3</td><td style="color:#999;font-style:italic;font-size:12px">"El sistema debe ser seguro y proteger los datos."</td><td class="empty-cell"></td></tr>
+      <tr><td>4</td><td style="color:#999;font-style:italic;font-size:12px">"El sistema no debe fallar."</td><td class="empty-cell"></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- EVALUACIÓN -->
+<div class="sec-header" id="evaluacion"><div class="sec-num" style="background:var(--teal)">📊</div><div><h2>Criterios de Evaluación</h2></div></div>
+<div class="card mb24">
+  <table class="eval-table">
+    <thead><tr><th>Criterio</th><th>Descripción</th><th style="width:90px;text-align:center">Puntaje</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:700;color:var(--teal)">Identificación</td><td>Se identificaron al menos 10 requerimientos relevantes y pertinentes al caso.</td><td style="text-align:center"><span class="pct">25%</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--green)">Clasificación</td><td>Cada requerimiento correctamente clasificado como RF o RNF sin confusiones.</td><td style="text-align:center"><span class="pct">30%</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--amber)">Justificación</td><td>Justificación coherente, clara y con terminología correcta de IS.</td><td style="text-align:center"><span class="pct">20%</span></td></tr>
+      <tr><td style="font-weight:700;color:var(--purple)">Redacción</td><td>Requerimientos reescritos son claros, completos y verificables.</td><td style="text-align:center"><span class="pct">25%</span></td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="2">TOTAL</td><td style="text-align:center;font-size:17px;font-weight:900">100%</td></tr></tfoot>
+  </table>
+</div>
+
+<!-- DISCUSIÓN -->
+<div class="sec-header"><div class="sec-num" style="background:var(--navy)">💬</div><div><h2>Preguntas para Discusión Final</h2><p>Reserve 10 min para estas preguntas con todo el salón</p></div></div>
+<div class="discussion mb24">
+  <div class="disc-q"><div class="disc-q-num">1</div><div class="disc-q-text">¿Qué técnica de elicitación usarían prioritariamente con la Dra. Vargas y por qué? ¿Solo una técnica es suficiente?</div></div>
+  <div class="disc-q"><div class="disc-q-num">2</div><div class="disc-q-text">¿Qué dificultades encontraron al distinguir RF de RNF? ¿Por qué esta distinción es importante en la práctica?</div></div>
+  <div class="disc-q"><div class="disc-q-num">3</div><div class="disc-q-text">¿Por qué es importante que un requerimiento sea verificable? ¿Qué problemas genera "el sistema debe ser amigable" sin especificaciones?</div></div>
+  <div class="disc-q"><div class="disc-q-num">4</div><div class="disc-q-text">¿Cómo documentarían estos requerimientos en un proyecto ágil (Scrum)? ¿Cómo cambiaría el enfoque respecto a un documento IEEE 830?</div></div>
+  <div class="disc-q"><div class="disc-q-num">5</div><div class="disc-q-text">¿Cuál sería el impacto en el proyecto si los requerimientos no se documentan correctamente antes de comenzar el desarrollo?</div></div>
+</div>
+
+<!-- NOTAS DOCENTE -->
+<div class="sec-header" id="docente">
+  <div class="sec-num" style="background:var(--teal)">💡</div>
+  <div><h2>Tips para el Estudiante</h2><p>Conceptos clave con definiciones de los autores — guarda esto como referencia rápida</p></div>
+</div>
+
+<div class="tips-section mb24">
+
+  <!-- TIP 1: QUÉ ES UN REQUERIMIENTO -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--teal)">📌</div>
+      <div>
+        <div class="tip-card-label">Tip 01 · Concepto fundamental</div>
+        <div class="tip-card-title">¿Qué es realmente un requerimiento?</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-teal">
+        <p>La correcta identificación de los requisitos del sistema representa un punto de partida sólido para el desarrollo. Identificar adecuadamente las necesidades del cliente, las personas involucradas en el proceso y el impacto que puede tener el desarrollo en estas personas y en la compañía, traza la ruta para la implementación de las metodologías.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div class="tip-highlight">
+        Un requerimiento no es lo que el desarrollador <em>cree</em> que el cliente necesita. Es lo que el cliente <em>realmente</em> necesita, expresado de forma clara, verificable y acordada entre ambas partes.
+      </div>
+      <div class="tip-dos">
+        <div class="tip-do"><strong>✔ HAZLO ASÍ</strong>"El sistema permitirá registrar pacientes con nombre, cédula y correo."</div>
+        <div class="tip-dont"><strong>✘ EVITA ESTO</strong>"El sistema debe tener un formulario bonito para los datos del paciente."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 2: ELICITACIÓN -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--green)">🎤</div>
+      <div>
+        <div class="tip-card-label">Tip 02 · Elicitación</div>
+        <div class="tip-card-title">El cliente no siempre sabe lo que necesita</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-green">
+        <p>Identificar los requisitos de un sistema requiere de comunicación continua con el cliente y los stakeholders. Las personas encargadas de realizar estos procedimientos deben hacer uso de diferentes técnicas para identificar correctamente las necesidades del cliente y el impacto que el desarrollo de la herramienta puede generar sobre las personas y la compañía en general, ya que en la mayoría de los casos los clientes no saben explicar lo que realmente necesitan.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div class="tip-highlight">
+        Por eso no basta con hacer una sola entrevista. Combina técnicas: entrevistas, observación, prototipos y talleres. Cada técnica revela un ángulo diferente de la necesidad real.
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 3: COSTO DEL ERROR -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--red)">⚠️</div>
+      <div>
+        <div class="tip-card-label">Tip 03 · Impacto económico</div>
+        <div class="tip-card-title">Un error temprano se paga muy caro después</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-amber">
+        <p>El costo del cambio generado por no identificar adecuadamente los requisitos del sistema puede ser 60 o 100 veces superior a si se hubiera realizado el cambio al principio del proyecto.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div class="tip-highlight">
+        Imagina que construyes 10 pisos de un edificio sobre un plano equivocado. Corregir la base cuando ya está terminado el edificio es devastadoramente costoso. Los requerimientos son los planos del software.
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 4: RF vs RNF -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--amber)">⚖️</div>
+      <div>
+        <div class="tip-card-label">Tip 04 · Clasificación</div>
+        <div class="tip-card-title">La diferencia entre RF y RNF en una frase</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-amber">
+        <p>Los requerimientos funcionales están relacionados con las funcionalidades que tendrá la herramienta de software. Los requisitos no funcionales no hacen referencia a funcionalidades de la herramienta, sino a características o propiedades que debe tener el sistema, como por ejemplo rendimiento, disponibilidad, seguridad.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div class="tip-highlight">
+        Truco rápido: si puedes imaginar un botón o pantalla que lo ejecuta → es <strong>RF</strong>. Si es una condición de calidad que aplica a todo el sistema sin ser una función visible → es <strong>RNF</strong>.
+      </div>
+      <div class="tip-dos">
+        <div class="tip-do"><strong>RF — ¿QUÉ hace?</strong>"El sistema mostrará el turno en pantalla." — Hay una pantalla que hace algo.</div>
+        <div class="tip-dont" style="background:#FFF3CD;color:var(--amber)"><strong style="opacity:0.75">RNF — ¿CON QUÉ CALIDAD?</strong>"La pantalla se actualizará en &lt; 3 s." — Es una restricción de rendimiento.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 5: DOCUMENTACIÓN ÁGIL -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--purple)">🔄</div>
+      <div>
+        <div class="tip-card-label">Tip 05 · Metodologías ágiles</div>
+        <div class="tip-card-title">Documentar liviano no significa no documentar</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-purple">
+        <p>Las metodologías ágiles han impactado fuertemente en la forma como se realiza la elicitación de requisitos y su respectiva documentación. A diferencia de las metodologías tradicionales, la documentación es más liviana, ya que según el manifiesto ágil, se valora más los individuos e interacciones sobre los procesos y herramientas, el software funcionando sobre la documentación extensiva.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div class="tip-highlight">
+        En Scrum, los requerimientos viven en el <strong>Product Backlog</strong> como Historias de Usuario. No desaparecen — cambian de forma. Son más cortos, más flexibles y se refinan sprint a sprint con el cliente.
+      </div>
+      <div class="tip-dos">
+        <div class="tip-do"><strong>✔ ÁGIL: Historia de Usuario</strong>"Como médico, quiero llamar al siguiente paciente con un clic, para agilizar la consulta."</div>
+        <div class="tip-dont" style="background:#EEF2FA;color:var(--navy)"><strong style="opacity:0.75">TRADICIONAL: IEEE 830</strong>RF-014: El sistema proveerá al médico un botón de "Llamar siguiente" en la vista de consultorio, que actualice el turno en curso...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 6: VERIFICABILIDAD -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--blue)">🎯</div>
+      <div>
+        <div class="tip-card-label">Tip 06 · Calidad de redacción</div>
+        <div class="tip-card-title">Si no puedes medirlo, no puedes verificarlo</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-blue">
+        <p>Una especificación de requisitos de software debería ser correcta, no ambigua, completa, consistente, clasificada por importancia o estabilidad, verificable, modificable y rastreable.</p>
+        <cite>IEEE Std 830-1998 — Software Requirements Specification</cite>
+      </div>
+      <div class="tip-highlight">
+        La verificabilidad es el criterio más fácil de evaluar y el más frecuentemente violado. Antes de escribir un requerimiento, pregúntate: <em>"¿Cómo pruebo que el sistema cumple esto?"</em> Si no tienes respuesta clara, reescríbelo.
+      </div>
+      <div class="tip-dos">
+        <div class="tip-do"><strong>✔ VERIFICABLE</strong>"El sistema responderá en ≤ 2 segundos bajo 500 usuarios simultáneos." — Puedo medirlo con una prueba de carga.</div>
+        <div class="tip-dont"><strong>✘ NO VERIFICABLE</strong>"El sistema debe ser rápido y fácil de usar." — ¿Qué significa rápido? ¿Fácil para quién?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP 7: RECOMENDACIONES FINALES -->
+  <div class="tip-card">
+    <div class="tip-card-head">
+      <div class="tip-card-icon" style="background:var(--navy)">📝</div>
+      <div>
+        <div class="tip-card-label">Tip 07 · Para el proyecto</div>
+        <div class="tip-card-title">Checklist antes de entregar tus requerimientos</div>
+      </div>
+    </div>
+    <div class="tip-card-body">
+      <div class="author-quote aq-navy">
+        <p>Tener una comunicación directa con el cliente y los stakeholders. Escuchar la descripción del problema por parte del cliente, esto dará una visión global de lo que se desea construir. Tomar nota y apoyarse de elementos escritos, para no olvidar detalles importantes. En caso de necesitar aclarar algunos requerimientos, se pueden utilizar Wireframes.</p>
+        <cite>Herrera Betancur, S. (2020) — I.U. Pascual Bravo</cite>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;">
+        <div class="tip-highlight" style="margin-top:0">¿Cada requerimiento tiene un solo significado posible? → <strong>Claridad ✔</strong></div>
+        <div class="tip-highlight" style="margin-top:0">¿Puedes diseñar una prueba para verificarlo? → <strong>Verificabilidad ✔</strong></div>
+        <div class="tip-highlight" style="margin-top:0">¿Contradice algún otro requerimiento? → <strong>Consistencia ✔</strong></div>
+        <div class="tip-highlight" style="margin-top:0">¿Sabes de dónde viene y a qué caso de uso corresponde? → <strong>Trazabilidad ✔</strong></div>
+        <div class="tip-highlight" style="margin-top:0">¿Tienes claro el alcance y las condiciones de entrega con el cliente? → <strong>Alcance definido ✔</strong></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BIBLIOGRAFÍA -->
+<div class="sec-header"><div class="sec-num" style="background:var(--muted)">📚</div><div><h2>Bibliografía</h2></div></div>
+<div class="card mb24">
+  <ul class="bullet-list">
+    <li><strong>Herrera Betancur, S.</strong> (2020). <em>Aplicando la Fase de Análisis y Especificación de Requisitos de los Proyectos a una Situación Real.</em> Unidad de Educación Digital, I.U. Pascual Bravo — Alcaldía de Medellín.</li>
+    <li><strong>Chaves, M. A.</strong> (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software. <em>InterSedes: Revista de las Sedes Regionales</em>, 6(10), 1–13.</li>
+    <li><strong>Pacheco-Casadiego, J. M.</strong> (2016). Modelado de requerimientos de software. <em>Documento de Docencia</em>, Vol. 18. https://doi.org/10.16925/greylit.1852</li>
+    <li><strong>IEEE Std 830-1998.</strong> IEEE Recommended Practice for Software Requirements Specifications. Institute of Electrical and Electronics Engineers.</li>
+    <li><strong>Sommerville, I.</strong> (2011). <em>Ingeniería de Software</em> (9.ª ed.). Pearson Educación.</li>
+    <li><strong>Pressman, R. S.</strong> (2010). <em>Ingeniería del Software: Un Enfoque Práctico</em> (7.ª ed.). McGraw-Hill.</li>
+  </ul>
+</div>
+
+</div><!-- END WRAPPER -->
+
+<footer class="footer-top">
+  <div class="footer-inner">
+
+    <div class="footer-center">
+      <div class="footer-uni">Universidad Popular del Cesar</div>
+      <div class="footer-prog">Programa de Ingeniería de Sistemas</div>
+      <div class="footer-divider"></div>
+      <div class="footer-docente-label">Docente</div>
+      <div class="footer-docente-name">John Jairo Patiño Vanegas</div>
+      <div class="footer-docente-title">Docente Tiempo Completo · Magíster en Ingeniería de Software y Sistemas Informáticos</div>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-subject-label">Asignatura</div>
+      <div class="footer-subject">Ingeniería de Software I</div>
+      <div class="footer-unit">Unidad 3 · Ingeniería de Requerimientos</div>
+      <div class="footer-divider"></div>
+      <div class="footer-sources">
+        Herrera Betancur (2020) · IEEE Std 830<br>
+        Sommerville (2011) · Pressman (2010)
+      </div>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <strong>Universidad Popular del Cesar</strong> · Facultad de Ingeniería y Tecnología · Programa de Ingeniería de Sistemas · Material de uso académico
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+    document.getElementById('progress').style.width=p+'%';
+  });
+  const sections=document.querySelectorAll('[id]');
+  const links=document.querySelectorAll('.topnav a');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+e.target.id)a.classList.add('active');});
+      }
+    });
+  },{threshold:0.25});
+  sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
